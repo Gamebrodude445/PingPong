@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -10,6 +11,9 @@ namespace PingPong.Server
         public static void Main(string[] args)
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            socket.Bind(new IPEndPoint(
+                Dns.GetHostEntry(Dns.GetHostName()).AddressList[0],
+                1025));
             while (true) { 
                 socket.Listen();
                 Thread newThread = new Thread(() =>
