@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using log4net.Core;
 
 namespace PingPong.Common.Utilities
 {
-    class Logger
+    public sealed class Logger
     {
+        public static ILogger logger { get 
+            {
+                return default;
+            }
+        }
     }
 }
