@@ -1,4 +1,5 @@
 ﻿using PingPong.Common.Sockets.Abstractions;
+using System.Net;
 using System.Net.Sockets;
 
 namespace PingPong.Common.Sockets
@@ -15,14 +16,24 @@ namespace PingPong.Common.Sockets
             _ip = ip;
             _port = port;
         }
+
+        public TCPSocketWrapper(Socket socket,string ip, uint port) : this (ip, port)
+        {
+            TCPSocket = socket;
+        }
         public void Connect()
         {
-            throw new NotImplementedException();
+            TCPSocket.Connect(_ip, (int)_port);
         }
 
-        public void Listen()
+        public ISocketWrapper<T> Listen()
         {
-            throw new NotImplementedException();
+            IPAddress ip = IPAddress.Parse(_ip);
+            var endPoint = new IPEndPoint(ip, (int)_port);
+            TCPSocket.Bind(endPoint);
+            TCPSocket.Listen();
+            var otherSocket = TCPSocket.Accept();
+            return new TCPSocketWrapper<T>(otherSocket, _ip, _port);
         }
 
         public T Receive()

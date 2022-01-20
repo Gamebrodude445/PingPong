@@ -3,6 +3,6 @@
     public interface ISocketWrapper<T> : ISender<T>, IReceiver<T>
     {
         public void Connect();
-        public void Listen();
+        public ISocketWrapper<T> Listen();
     }
 }
